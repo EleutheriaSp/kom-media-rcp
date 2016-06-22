@@ -1,5 +1,6 @@
 package pl.kommedia.zdalnie;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -13,6 +14,7 @@ import org.jboss.ejb.client.PropertiesBasedEJBClientConfiguration;
 import org.jboss.ejb.client.remoting.ConfigBasedEJBClientContextSelector;
 
 import pl.kommedia.ejb.administracja.Konf;
+import pl.kompro.model.kartoteki.Firma;
 
 public class Uslugi {
 	
@@ -43,8 +45,11 @@ public class Uslugi {
 			ctx = new InitialContext(props);
 			//Dupa
 			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf");
-			System.err.println( "Konfig: "+ konfiguracja.getWykazFirm());
-			konfiguracja.businessMethod();
+			List<Firma> dupa= konfiguracja.getWykazFirm();
+			System.err.println( "Konfig: "+ dupa);
+			for( Firma firma: dupa){
+				System.out.println( "Firma("+ firma.getKod()+") - "+ firma.getNazwa());
+			}
 
 
 		}catch( NamingException e) {
