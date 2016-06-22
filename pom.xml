@@ -66,6 +66,12 @@
        		<version>${project.version}</version>
        </dependency>
        
+       	<dependency>
+			<groupId>pl.kompro</groupId>
+			<artifactId>kom-pro-int</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+       
        
          <!-- Plik JAR API klienckiego EJB. Używamy zakresu runtime, ponieważ referencje do tego API
         nie występują w kodzie klienta w sposób bezpośredni. Potrzebujemy posiadać ten plik w ścieżce. -->

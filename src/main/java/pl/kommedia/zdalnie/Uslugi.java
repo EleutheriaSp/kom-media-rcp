@@ -1,5 +1,6 @@
 package pl.kommedia.zdalnie;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -13,6 +14,9 @@ import org.jboss.ejb.client.PropertiesBasedEJBClientConfiguration;
 import org.jboss.ejb.client.remoting.ConfigBasedEJBClientContextSelector;
 
 import pl.kommedia.ejb.administracja.Konf;
+import pl.kompro.model.handel.Faktury;
+import pl.kompro.model.handel.Faktury.KryteriaFaktury;
+import pl.kompro.model.kartoteki.Firma;
 
 public class Uslugi {
 	
@@ -43,10 +47,32 @@ public class Uslugi {
 			ctx = new InitialContext(props);
 			//Dupa
 			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf");
-			System.err.println( "Konfig: "+ konfiguracja.getWykazFirm());
-			konfiguracja.businessMethod();
-
-
+			System.err.println( "Konfiguracja: "+  konfiguracja);
+			List<Firma> firmy = konfiguracja.getWykazFirm();
+			System.err.println( "Firmy: "+  firmy);
+			/*
+			for( Firma firma: konfiguracja.getWykazFirm()){
+				System.err.println( "Firma: "+  firma);
+				System.err.println( "Firma: "+  firma.getNazwa());
+			}
+			*/
+			//konfiguracja.businessMethod();
+			//KonfKryteria kryteria=
+			//System.err.println( "Kryteria: "+ konfiguracja.getKryteria());
+			//System.err.println( "Kryteria: "+ konfiguracja.getKryteria().odbKryteria());
+			
+			//Faktury faktury= (Faktury)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//FakturySprzedazy!pl.kompro.model.handel.Faktury");
+			//System.err.println( "Faktury: "+ faktury);
+			//KryteriaFaktury kryteria = faktury.odbKryteriaFaktury();
+			//kryteria.wstPlatnika( 7652L);
+			//System.err.println( "Faktury: "+ kryteria.odbFaktury());
+			
+		//	KryteriaFaktury kryteria2= (KryteriaFaktury)ctx.lookup(
+		//			"ejb:kom-media-ear/kom-media-ejb//KryteriaFakturySprzedazy!pl.kompro.model.handel.Faktury$KryteriaFaktury?stateful");
+		//	System.out.println( "Kryteria2: "+ kryteria2);
+			//kryteria2.wstPlatnika( 7652L);
+		//	kryteria2.odbFaktury();
+	
 		}catch( NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
