@@ -14,6 +14,7 @@ import org.jboss.ejb.client.PropertiesBasedEJBClientConfiguration;
 import org.jboss.ejb.client.remoting.ConfigBasedEJBClientContextSelector;
 
 import pl.kommedia.ejb.administracja.Konf;
+import pl.kompro.model.handel.Faktura;
 import pl.kompro.model.handel.Faktury;
 import pl.kompro.model.handel.Faktury.KryteriaFaktury;
 import pl.kompro.model.kartoteki.Firma;
@@ -45,17 +46,17 @@ public class Uslugi {
 		Context ctx;
 		try{
 			ctx = new InitialContext(props);
-			//Dupa
-			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf");
-			System.err.println( "Konfiguracja: "+  konfiguracja);
+			
+/* 
+			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf?stateful");
+			System.out.println( "Konfiguracja: "+  konfiguracja);
 			List<Firma> firmy = konfiguracja.getWykazFirm();
-			System.err.println( "Firmy: "+  firmy);
-			/*
+			
 			for( Firma firma: konfiguracja.getWykazFirm()){
-				System.err.println( "Firma: "+  firma);
-				System.err.println( "Firma: "+  firma.getNazwa());
+				System.out.println( "Firma: "+  firma.getNazwa());
 			}
-			*/
+*/
+			
 			//konfiguracja.businessMethod();
 			//KonfKryteria kryteria=
 			//System.err.println( "Kryteria: "+ konfiguracja.getKryteria());
@@ -67,11 +68,14 @@ public class Uslugi {
 			//kryteria.wstPlatnika( 7652L);
 			//System.err.println( "Faktury: "+ kryteria.odbFaktury());
 			
-		//	KryteriaFaktury kryteria2= (KryteriaFaktury)ctx.lookup(
-		//			"ejb:kom-media-ear/kom-media-ejb//KryteriaFakturySprzedazy!pl.kompro.model.handel.Faktury$KryteriaFaktury?stateful");
-		//	System.out.println( "Kryteria2: "+ kryteria2);
+			KryteriaFaktury kryteria2= (KryteriaFaktury)ctx.lookup(
+					"ejb:kom-media-ear/kom-media-ejb//KryteriaFakturySprzedazy!pl.kompro.model.handel.Faktury$KryteriaFaktury?stateful");
+			System.err.println( "Kryteria faktury: "+ kryteria2);
 			//kryteria2.wstPlatnika( 7652L);
-		//	kryteria2.odbFaktury();
+			List<Faktura> faktury = kryteria2.odbFaktury();
+			for( Faktura faktura: faktury){
+				System.out.println( "Faktura: "+ faktura.getNumer());
+			}
 	
 		}catch( NamingException e) {
 			// TODO Auto-generated catch block
