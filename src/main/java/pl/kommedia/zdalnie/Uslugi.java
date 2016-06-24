@@ -46,6 +46,7 @@ public class Uslugi {
 		Context ctx;
 		try{
 			ctx = new InitialContext(props);
+
 			
 /* 
 			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf?stateful");
@@ -77,6 +78,16 @@ public class Uslugi {
 				System.out.println( "Faktura: "+ faktura.getNumer());
 			}
 	
+
+			//Dupa
+			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf");
+			List<Firma> dupa= konfiguracja.getWykazFirm();
+			System.err.println( "Konfig: "+ dupa);
+			for( Firma firma: dupa){
+				System.out.println( "Firma("+ firma.getKod()+") - "+ firma.getNazwa());
+			}
+
+
 		}catch( NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
