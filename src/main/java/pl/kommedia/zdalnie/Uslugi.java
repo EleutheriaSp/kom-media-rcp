@@ -14,12 +14,9 @@ import org.jboss.ejb.client.PropertiesBasedEJBClientConfiguration;
 import org.jboss.ejb.client.remoting.ConfigBasedEJBClientContextSelector;
 
 import pl.kommedia.ejb.administracja.Konf;
-<<<<<<< HEAD
 import pl.kompro.model.handel.Faktura;
 import pl.kompro.model.handel.Faktury;
 import pl.kompro.model.handel.Faktury.KryteriaFaktury;
-=======
->>>>>>> refs/remotes/origin/master
 import pl.kompro.model.kartoteki.Firma;
 
 public class Uslugi {
