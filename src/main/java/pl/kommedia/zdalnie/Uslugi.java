@@ -14,10 +14,12 @@ import org.jboss.ejb.client.PropertiesBasedEJBClientConfiguration;
 import org.jboss.ejb.client.remoting.ConfigBasedEJBClientContextSelector;
 
 import pl.kommedia.ejb.administracja.Konf;
+import pl.kommedia.ejb.rozrachunki.RozrachunkiBil;
 import pl.kompro.model.handel.Faktura;
 import pl.kompro.model.handel.Faktury;
 import pl.kompro.model.handel.Faktury.KryteriaFaktury;
 import pl.kompro.model.kartoteki.Firma;
+import pl.kompro.model.rozrachunki.Rozrachunki;
 
 public class Uslugi {
 	
@@ -47,8 +49,6 @@ public class Uslugi {
 		try{
 			ctx = new InitialContext(props);
 
-			
-/* 
 			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf?stateful");
 			System.out.println( "Konfiguracja: "+  konfiguracja);
 			List<Firma> firmy = konfiguracja.getWykazFirm();
@@ -56,7 +56,6 @@ public class Uslugi {
 			for( Firma firma: konfiguracja.getWykazFirm()){
 				System.out.println( "Firma: "+  firma.getNazwa());
 			}
-*/
 			
 			//konfiguracja.businessMethod();
 			//KonfKryteria kryteria=
@@ -72,22 +71,20 @@ public class Uslugi {
 			KryteriaFaktury kryteria2= (KryteriaFaktury)ctx.lookup(
 					"ejb:kom-media-ear/kom-media-ejb//KryteriaFakturySprzedazy!pl.kompro.model.handel.Faktury$KryteriaFaktury?stateful");
 			System.err.println( "Kryteria faktury: "+ kryteria2);
+			Rozrachunki rozrach= (Rozrachunki)ctx.lookup(
+					"ejb:kom-media-ear/kom-media-ejb//RozrachunkiBil!pl.kompro.model.rozrachunki.Rozrachunki?stateful");
+			System.err.println( "Kryteria faktury: "+ rozrach);
+
 			//kryteria2.wstPlatnika( 7652L);
 			List<Faktura> faktury = kryteria2.odbFaktury();
 			for( Faktura faktura: faktury){
 				System.out.println( "Faktura: "+ faktura.getNumer());
+				System.out.println( "Rozrach: "+ rozrach.utwRozrachunek( faktura.getId()));
 			}
+
+			
+			
 	
-
-			//Dupa
-			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf");
-			List<Firma> dupa= konfiguracja.getWykazFirm();
-			System.err.println( "Konfig: "+ dupa);
-			for( Firma firma: dupa){
-				System.out.println( "Firma("+ firma.getKod()+") - "+ firma.getNazwa());
-			}
-
-
 		}catch( NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
