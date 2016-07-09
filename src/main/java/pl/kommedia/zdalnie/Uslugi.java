@@ -23,73 +23,20 @@ import pl.kompro.model.rozrachunki.Rozrachunki;
 
 public class Uslugi {
 	
-	public static void main( String[] args){
-		Uslugi uslugi= new Uslugi();
-	}
-	
-	public Uslugi(){
-		Properties clientProp = new Properties();
-		clientProp.put( "remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false");
-		clientProp.put( "remote.connections", "default");
-		clientProp.put( "remote.connection.default.port", "8080"); 
-		clientProp.put( "remote.connection.default.host", "localhost"); 
-//		clientProp.put("remote.connection.default.username", "ejbUser");
-//		clientProp.put("remote.connection.default.password", "ejbPassword");
-		clientProp.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", "false"); 
-
-		EJBClientConfiguration cc = new PropertiesBasedEJBClientConfiguration( clientProp);
-		ContextSelector<EJBClientContext> selector = new ConfigBasedEJBClientContextSelector( cc);
-		EJBClientContext.setSelector( selector);
-
-		Properties props = new Properties();
-		//props.put("jboss.naming.client.ejb.context", true);
-		props.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-
-		Context ctx;
-		try{
-			ctx = new InitialContext(props);
-
-			Konf konfiguracja= (Konf)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//Konfiguracja!pl.kommedia.ejb.administracja.Konf?stateful");
-			System.out.println( "Konfiguracja: "+  konfiguracja);
-			List<Firma> firmy = konfiguracja.getWykazFirm();
-			
-			for( Firma firma: konfiguracja.getWykazFirm()){
-				System.out.println( "Firma: "+  firma.getNazwa());
-			}
-			
-			//konfiguracja.businessMethod();
-			//KonfKryteria kryteria=
-			//System.err.println( "Kryteria: "+ konfiguracja.getKryteria());
-			//System.err.println( "Kryteria: "+ konfiguracja.getKryteria().odbKryteria());
-			
-			//Faktury faktury= (Faktury)ctx.lookup("ejb:kom-media-ear/kom-media-ejb//FakturySprzedazy!pl.kompro.model.handel.Faktury");
-			//System.err.println( "Faktury: "+ faktury);
-			//KryteriaFaktury kryteria = faktury.odbKryteriaFaktury();
-			//kryteria.wstPlatnika( 7652L);
-			//System.err.println( "Faktury: "+ kryteria.odbFaktury());
-			
-			KryteriaFaktury kryteria2= (KryteriaFaktury)ctx.lookup(
-					"ejb:kom-media-ear/kom-media-ejb//KryteriaFakturySprzedazy!pl.kompro.model.handel.Faktury$KryteriaFaktury?stateful");
-			System.err.println( "Kryteria faktury: "+ kryteria2);
-			Rozrachunki rozrach= (Rozrachunki)ctx.lookup(
-					"ejb:kom-media-ear/kom-media-ejb//RozrachunkiBil!pl.kompro.model.rozrachunki.Rozrachunki?stateful");
-			System.err.println( "Kryteria faktury: "+ rozrach);
-
-			//kryteria2.wstPlatnika( 7652L);
-			List<Faktura> faktury = kryteria2.odbFaktury();
-			for( Faktura faktura: faktury){
-				System.out.println( "Faktura: "+ faktura.getNumer());
-				System.out.println( "Rozrach: "+ rozrach.utwRozrachunek( faktura.getId()));
-			}
-
-			
-			
-	
-		}catch( NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	private static Properties props= new Properties();
+	static{
+		props.put( Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 	}
 
+	public static KryteriaFaktury szukajKryteriaFaktury() throws NamingException{
+		final Context ctx= new InitialContext( props);
+		return (KryteriaFaktury) ctx.lookup( "ejb:kom-media-ear/kom-media-ejb/"
+				+ "/KryteriaFakturySprzedazy!pl.kompro.model.handel.Faktury$KryteriaFaktury?stateful");
+	}
+	
+	public static Rozrachunki szukajRozrachunki() throws NamingException{
+		final Context ctx= new InitialContext( props);
+		return (Rozrachunki) ctx.lookup( "ejb:kom-media-ear/kom-media-ejb/"
+				+ "/RozrachunkiBil!pl.kompro.model.rozrachunki.Rozrachunki?stateful");
+	}
 }
